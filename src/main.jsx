@@ -8,6 +8,9 @@ import {
 import './index.css'
 import Main from './Layouts/Main.jsx';
 import Home from './pages/Home/Home.jsx';
+import Category from './pages/Home/Category/Category';
+import NewsLayout from './Layouts/NewsLayout';
+import News from './pages/News/News';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,8 +20,23 @@ const router = createBrowserRouter([
         path:"/",
         element:<Home></Home>
       },
+      {
+        path:"/category/:id",
+        element:<Category></Category>,
+        loader:({params})=> fetch(`http://localhost:5000/categories/${params.id}`)
+      },
     ]
   },
+  {
+    path:'news',
+    element:<NewsLayout></NewsLayout>,
+    children:[
+      {
+        path:':id',
+        element:<News></News>
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
