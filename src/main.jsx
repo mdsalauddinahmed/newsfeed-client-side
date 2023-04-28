@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 import './index.css'
@@ -11,17 +12,39 @@ import Home from './pages/Home/Home.jsx';
 import Category from './pages/Home/Category/Category';
 import NewsLayout from './Layouts/NewsLayout';
 import News from './pages/News/News';
+import AuthProvider from './Providers/AuthProvider';
+import LoginLayout from './Layouts/LoginLayout';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+ 
 const router = createBrowserRouter([
+
   {
-    path: "/",
-    element:<Main></Main>,
+    path:'/',
+    element:<LoginLayout></LoginLayout>,
     children:[
       {
-        path:"/",
-        element:<Home></Home>
+       path:'/',
+       element:<Navigate to="/category/0"></Navigate>
       },
       {
-        path:"/category/:id",
+        path:'/login',
+        element:<Login></Login>
+      },
+      {
+        path:'register',
+        element:<Register></Register>
+      }
+    ]
+
+  },
+  {
+    path: "category",
+    element:<Main></Main>,
+    children:[
+     
+      {
+        path:":id",
         element:<Category></Category>,
         loader:({params})=> fetch(`http://localhost:5000/categories/${params.id}`)
       },
@@ -33,7 +56,8 @@ const router = createBrowserRouter([
     children:[
       {
         path:':id',
-        element:<News></News>
+        element:<News></News>,
+        loader:({params})=>fetch(`http://localhost:5000/news/${params.id}`)
       }
     ]
   }
@@ -41,6 +65,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
- <RouterProvider router={router} />
+  <AuthProvider>
+  <RouterProvider router={router} />
+  </AuthProvider>
   </React.StrictMode>,
 )
