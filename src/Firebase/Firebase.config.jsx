@@ -1,13 +1,13 @@
 
 import { initializeApp } from "firebase/app";
- 
+ console.log('environment variable',import.meta.env.VITE_apiKey)
 const firebaseConfig = {
-  apiKey: "AIzaSyAun_II9lYNMFvpEqx6hVF-8mreRajEv18",
-  authDomain: "newsfeed-59f0c.firebaseapp.com",
-  projectId: "newsfeed-59f0c",
-  storageBucket: "newsfeed-59f0c.appspot.com",
-  messagingSenderId: "776719767206",
-  appId: "1:776719767206:web:bc2e10948338bbdbed0667"
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID
 };
 
 // Initialize Firebase
