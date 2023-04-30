@@ -1,15 +1,43 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import   { AuthContext } from '../../Providers/AuthProvider';
 
 const Register = () => {
+
+    const {CreateUser}=useContext(AuthContext)
+    const [accepted,setAccepted]=useState(false)
+
+    const handleCheck=event=>{
+         setAccepted(event.target.checked)
+    }
+      
+    const handleSubmit= event =>{
+        event.preventDefault()
+        const form =event.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const email = form.email.value;
+        const password = form.password.value;
+         
+        console.log(name,photo,email,password)
+        
+        CreateUser(email, password)
+        .then(result =>{
+            const createdUser = result.user;
+            console.log(createdUser)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
     return (
         <Container className="w-25 mx-auto mt-5">
-        <h2>Please  Register</h2>
-        <Form>
+        <h2>Please  Register </h2>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control type=" text" placeholder="Enter your name" />
+            <Form.Control type=" text" name='name' placeholder="Enter your name" />
            
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -19,7 +47,7 @@ const Register = () => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name='name' placeholder="Enter email" />
+            <Form.Control type="email" name='email' placeholder="Enter email" />
            
           </Form.Group>
   
@@ -29,10 +57,14 @@ const Register = () => {
           </Form.Group>
   
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Accept all rules and condition" />
+            <Form.Check
+            onClick={handleCheck}
+             type="checkbox" 
+             name='accept'
+              label={<>Accept <Link to="/terms">all rules and condition</Link> </>} />
           </Form.Group>
   
-          <Button variant="primary" type="submit">
+          <Button variant="primary" disabled={ ! accepted} type="submit">
           Register
           </Button>
           <br />
