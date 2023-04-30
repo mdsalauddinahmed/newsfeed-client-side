@@ -9,7 +9,7 @@ import third from "../../../assets/assets/editorsInsight3.png";
 const LeftNav = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/categories")
+    fetch("https://newsfeed-server-mdsalauddinahmed.vercel.app/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error(error));
